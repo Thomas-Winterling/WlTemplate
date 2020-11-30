@@ -1,0 +1,9 @@
+{% sw_extends '@Storefront/storefront/layout/header/logo.html.twig' %}
+
+{# Use the 'layout_header_logo_image' block and append a sub headline to the logo  #}
+{% block layout_header_logo_image %}
+
+    {# The 'parent()' call gets the original content of the block an can put it at a desired place. #}
+    {{ parent() }}
+    <h3>Ihr Onlineshop</h3>
+{% endblock %}

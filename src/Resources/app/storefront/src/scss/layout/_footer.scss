@@ -1,0 +1,22 @@
+.footer-main {
+    background: #eceaeb;
+}
+
+.footer-bottom {
+    background: #4a4a4a;
+    color: #888;
+
+    li a {
+        color: white;
+    }
+
+    .container {
+        display: block;
+    }
+}
+
+@include media-breakpoint-up(lg){
+    .footer-service-menu-list {
+        display: block;
+    }
+}

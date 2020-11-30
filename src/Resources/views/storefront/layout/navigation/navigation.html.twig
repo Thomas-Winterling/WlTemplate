@@ -1,0 +1,50 @@
+{% sw_extends '@Storefront/storefront/layout/navigation/navigation.html.twig' %}
+
+{% block layout_main_navigation_menu_home %}{% endblock %}
+   
+
+
+{% block layout_main_navigation_menu_items %}
+    {% if page.header.navigation.active.level == 2 %}
+        {% set WlCategories = page.header.navigation.tree[page.header.navigation.active.id].children %}
+    {% else %}
+        {% if page.header.navigation.active.level >= 3 %}
+        {% set splittedPath = page.header.navigation.active.path|split('|') %}
+        {% set WlCategories = page.header.navigation.tree[splittedPath.2].children %}
+
+    {% else %}
+        {% set WlCategories = [] %}
+        {% endif %}    
+    {% endif %}
+        {% for treeItem in WlCategories %}
+            {% set category = treeItem.category %}
+            {% set name = category.translated.name %}
+            {% set categorId = category.id %}
+
+            {% block layout_main_navigation_menu_item %}
+                {% if category.type == 'folder' %}
+                    <div class="nav-link main-navigation-link"
+                    {% if treeItem.children|length > 0 %}
+                        data-flyout-menu-trigger="{{ categorId }}"
+                {% endif %}
+                    title="{{ name }}">
+                    <div class="main-navigation-link-text">
+                        <span itemprop="name">{{ name }}</span>
+                    </div>
+                </div>
+                {% else %}
+                    <a class="nav-link main-navigation-link{% if categorId is same as(page.header.navigation.active.id) %} active{% endif %}"
+                        href="{% if category.translated.externalLink %}{{ category.translated.externalLink }}{% else %}{{ seoUrl('frontend.navigation.page', { navigationId: categorId }) }}{% endif %}"
+                        itemprop="url"
+                        {% if treeItem.children|length > 0 %}
+                         data-flyout-menu-trigger="{{ categorId }}"
+                {% endif %}
+                    title="{{ name }}">
+                        <div class="main-navigation-link-text">
+                            <span itemprop="name">{{ name }}</span>
+                        </div>
+                </a>
+            {% endif %}
+        {% endblock %}
+    {% endfor %}
+{% endblock %}
